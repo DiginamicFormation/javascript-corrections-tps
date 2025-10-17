@@ -45,7 +45,7 @@ function creerGestionnaire() {
 
             for (let i = 0; i < this.taches.length; i++) {
                 const tache = this.taches[i];
-                const statut = tache.terminee ? "[✓ Terminée]" : "[ ] À faire";
+                const statut = tache.terminee ? "[✓]" : "[ ]";
                 console.log(`${i}. ${statut} ${tache.description}`);
             }
             console.log("------------------------\n");
