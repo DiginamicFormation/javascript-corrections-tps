@@ -1,148 +1,206 @@
-// ===== EXERCICE FonctionMaj - VERSION ROBUSTE (TP6) =====
+// ===== EXERCICE FonctionMaj (TP6 - Version robuste) =====
 // Description : Mettre la première lettre d'une chaîne en majuscule avec validation
-// Concepts : manipulation de chaînes, validation de type
-// Nouveauté TP6 : Validation que le paramètre est bien une chaîne de caractères
+// Concepts : manipulation de chaînes, throw, try/catch, validation de type
+// Objectif TP6 : Gestion d'erreurs robuste avec throw/catch
 
-console.log("=== EXERCICE FonctionMaj - Version Robuste ===\n");
+console.log("=== EXERCICE FonctionMaj (TP6) ===\n");
 
-// --- Définition de la fonction ---
-// Cette fonction met la première lettre d'une chaîne en majuscule
-// Retourne un message d'erreur si le paramètre n'est pas une chaîne
+// --- Fonction avec validation ---
+/**
+ * Met la première lettre d'une chaîne en majuscule
+ * @param {string} chaine - La chaîne à transformer
+ */
 function mettreEnMajuscule(chaine) {
-    // Vérification : Le paramètre est-il une chaîne de caractères ?
-    if (typeof chaine !== 'string') {
-        return `Erreur : le paramètre doit être une chaîne de caractères (type reçu: ${typeof chaine})`;
+    // Validation 1 : Vérifier que le paramètre existe
+    if (chaine === undefined || chaine === null) {
+        throw "Le paramètre est obligatoire";
     }
 
-    // Si la chaîne est vide, on la retourne telle quelle
+    // Validation 2 : Vérifier que c'est bien une chaîne de caractères
+    if (typeof chaine !== "string") {
+        throw `Le paramètre doit être une chaîne de caractères (type reçu : ${typeof chaine})`;
+    }
+
+    // Cas particulier : chaîne vide (retourner telle quelle)
     if (chaine.length === 0) {
         return chaine;
     }
 
-    // On prend la première lettre et on la met en majuscule
+    // Transformation : première lettre en majuscule + reste de la chaîne
     const premiereLettreMaj = chaine.charAt(0).toUpperCase();
-
-    // On prend le reste de la chaîne (à partir du caractère 1)
     const resteChaine = chaine.slice(1);
 
-    // On concatène les deux parties
     return premiereLettreMaj + resteChaine;
 }
 
-// --- Test 1 : Avec une chaîne valide ---
-console.log("Test 1 - Avec une chaîne valide :");
-const texte1 = "bonjour";
-console.log(`Entrée : "${texte1}"`);
-const resultat1 = mettreEnMajuscule(texte1);
-console.log(`Résultat : "${resultat1}"`);
+// --- Tests avec gestion d'erreurs ---
+console.log("Test 1 : Cas nominal (mot en minuscules)\n");
+try {
+    const texte = "bonjour";
+    console.log(`Entrée : "${texte}"`);
+    const resultat = mettreEnMajuscule(texte);
+    console.log(`✓ Résultat : "${resultat}"\n`);
+} catch (error) {
+    console.log(`✗ Erreur capturée : ${error}\n`);
+}
 
-// --- Test 2 : Avec une autre chaîne ---
-console.log("\nTest 2 - Avec une autre chaîne :");
-const texte2 = "javascript";
-console.log(`Entrée : "${texte2}"`);
-const resultat2 = mettreEnMajuscule(texte2);
-console.log(`Résultat : "${resultat2}"`);
+console.log("Test 2 : Autre mot\n");
+try {
+    const texte = "javascript";
+    console.log(`Entrée : "${texte}"`);
+    const resultat = mettreEnMajuscule(texte);
+    console.log(`✓ Résultat : "${resultat}"\n`);
+} catch (error) {
+    console.log(`✗ Erreur capturée : ${error}\n`);
+}
 
-// --- Test 3 : Avec un nombre ---
-console.log("\nTest 3 - Avec un nombre (invalide) :");
-const texte3 = 12345;
-console.log(`Entrée : ${texte3}`);
-const resultat3 = mettreEnMajuscule(texte3);
-console.log(`Résultat : ${resultat3}`);
+console.log("Test 3 : Mot déjà en majuscule\n");
+try {
+    const texte = "HELLO";
+    console.log(`Entrée : "${texte}"`);
+    const resultat = mettreEnMajuscule(texte);
+    console.log(`✓ Résultat : "${resultat}"`);
+    console.log("Note : La première lettre reste en majuscule\n");
+} catch (error) {
+    console.log(`✗ Erreur capturée : ${error}\n`);
+}
 
-// --- Test 4 : Avec un booléen ---
-console.log("\nTest 4 - Avec un booléen (invalide) :");
-const texte4 = true;
-console.log(`Entrée : ${texte4}`);
-const resultat4 = mettreEnMajuscule(texte4);
-console.log(`Résultat : ${resultat4}`);
+console.log("Test 4 : Première lettre déjà en majuscule\n");
+try {
+    const texte = "Hello";
+    console.log(`Entrée : "${texte}"`);
+    const resultat = mettreEnMajuscule(texte);
+    console.log(`✓ Résultat : "${resultat}"\n`);
+} catch (error) {
+    console.log(`✗ Erreur capturée : ${error}\n`);
+}
 
-// --- Test 5 : Avec un objet ---
-console.log("\nTest 5 - Avec un objet (invalide) :");
-const texte5 = {texte: "hello"};
-console.log(`Entrée :`, texte5);
-const resultat5 = mettreEnMajuscule(texte5);
-console.log(`Résultat : ${resultat5}`);
+console.log("Test 5 : Un seul caractère\n");
+try {
+    const texte = "a";
+    console.log(`Entrée : "${texte}"`);
+    const resultat = mettreEnMajuscule(texte);
+    console.log(`✓ Résultat : "${resultat}"\n`);
+} catch (error) {
+    console.log(`✗ Erreur capturée : ${error}\n`);
+}
 
-// --- Test 6 : Avec null ---
-console.log("\nTest 6 - Avec null (invalide) :");
-const texte6 = null;
-console.log(`Entrée : ${texte6}`);
-const resultat6 = mettreEnMajuscule(texte6);
-console.log(`Résultat : ${resultat6}`);
+console.log("Test 6 : Chaîne vide\n");
+try {
+    const texte = "";
+    console.log(`Entrée : "${texte}"`);
+    const resultat = mettreEnMajuscule(texte);
+    console.log(`✓ Résultat : "${resultat}"`);
+    console.log("Note : Chaîne vide retournée telle quelle\n");
+} catch (error) {
+    console.log(`✗ Erreur capturée : ${error}\n`);
+}
 
-// --- Test 7 : Cas limites avec des chaînes ---
-console.log("\nTest 7 - Cas limites avec des chaînes valides :");
-console.log(`Chaîne vide "" → "${mettreEnMajuscule("")}"`);
-console.log(`Un caractère "a" → "${mettreEnMajuscule("a")}"`);
-console.log(`Déjà en majuscule "Hello" → "${mettreEnMajuscule("Hello")}"`);
+console.log("Test 7 : Phrase complète\n");
+try {
+    const texte = "hello world";
+    console.log(`Entrée : "${texte}"`);
+    const resultat = mettreEnMajuscule(texte);
+    console.log(`✓ Résultat : "${resultat}"`);
+    console.log("Note : Seule la première lettre est en majuscule\n");
+} catch (error) {
+    console.log(`✗ Erreur capturée : ${error}\n`);
+}
 
-console.log("\n" + "=".repeat(40));
+console.log("Test 8 : Erreur - Type number\n");
+try {
+    const texte = 12345;
+    console.log(`Entrée : ${texte}`);
+    const resultat = mettreEnMajuscule(texte);
+    console.log(`✓ Résultat : "${resultat}"\n`);
+} catch (error) {
+    console.log(`✗ Erreur capturée : ${error}\n`);
+}
 
-// Note pédagogique : Validation de type pour chaînes
-//
-// NOUVEAUTÉ TP6 : Vérifier le type avant traitement
-//
-// Différence TP5 vs TP6 :
-//
-// TP5 : Aucune validation
-// function mettreEnMajuscule(chaine) {
-//     if (chaine.length === 0) return chaine;
-//     return chaine.charAt(0).toUpperCase() + chaine.slice(1);
-// }
-// mettreEnMajuscule(123) → CRASH ! (TypeError: chaine.charAt is not a function)
-//
-// TP6 : Validation en amont
-// function mettreEnMajuscule(chaine) {
-//     if (typeof chaine !== 'string') {
-//         return "Erreur : le paramètre doit être une chaîne de caractères";
-//     }
-//     if (chaine.length === 0) return chaine;
-//     return chaine.charAt(0).toUpperCase() + chaine.slice(1);
-// }
-// mettreEnMajuscule(123) → Message d'erreur clair (pas de crash)
-//
-// Pourquoi cette validation est cruciale :
-// - Les méthodes de chaînes (charAt, slice, etc.) ne fonctionnent que sur des strings
-// - Sans validation, le code crashe avec des types incompatibles
-// - Meilleure expérience utilisateur (message clair vs crash)
-//
-// Types qui ne sont pas des strings :
-// - number : 123, 45.67, NaN, Infinity
-// - boolean : true, false
-// - object : {}, [], null
-// - undefined : undefined
-// - function : function() {}
-//
-// Comportement sans validation :
-// mettreEnMajuscule(123) → TypeError: chaine.charAt is not a function
-// mettreEnMajuscule(null) → TypeError: Cannot read property 'length' of null
-// mettreEnMajuscule(undefined) → TypeError: Cannot read property 'length' of undefined
-//
-// Avec validation :
-// Tous ces cas retournent un message d'erreur explicite
-//
-// Variante avec throw :
-// function mettreEnMajuscule(chaine) {
-//     if (typeof chaine !== 'string') {
-//         throw new TypeError("Le paramètre doit être une chaîne de caractères");
-//     }
-//     if (chaine.length === 0) return chaine;
-//     return chaine.charAt(0).toUpperCase() + chaine.slice(1);
-// }
-//
-// Variante avec conversion automatique :
-// function mettreEnMajuscule(chaine) {
-//     // Convertir en string si ce n'en est pas une
-//     chaine = String(chaine);
-//     if (chaine.length === 0) return chaine;
-//     return chaine.charAt(0).toUpperCase() + chaine.slice(1);
-// }
-// mettreEnMajuscule(123) → "123" (fonctionne, mais change le comportement)
-//
-// Quelle approche choisir ?
-// - throw : Pour les bibliothèques et le code strict
-// - return message : Pour les applications pédagogiques
-// - conversion : Pour les fonctions utilitaires permissives
-//
-// Le choix dépend du contexte et des besoins !
+console.log("Test 9 : Erreur - Type boolean\n");
+try {
+    const texte = true;
+    console.log(`Entrée : ${texte}`);
+    const resultat = mettreEnMajuscule(texte);
+    console.log(`✓ Résultat : "${resultat}"\n`);
+} catch (error) {
+    console.log(`✗ Erreur capturée : ${error}\n`);
+}
+
+console.log("Test 10 : Erreur - Objet\n");
+try {
+    const texte = {valeur: "hello"};
+    console.log(`Entrée :`, texte);
+    const resultat = mettreEnMajuscule(texte);
+    console.log(`✓ Résultat : "${resultat}"\n`);
+} catch (error) {
+    console.log(`✗ Erreur capturée : ${error}\n`);
+}
+
+console.log("Test 11 : Erreur - null\n");
+try {
+    const texte = null;
+    console.log(`Entrée : ${texte}`);
+    const resultat = mettreEnMajuscule(texte);
+    console.log(`✓ Résultat : "${resultat}"\n`);
+} catch (error) {
+    console.log(`✗ Erreur capturée : ${error}\n`);
+}
+
+console.log("Test 12 : Erreur - Paramètre manquant\n");
+try {
+    const resultat = mettreEnMajuscule();
+    console.log(`✓ Résultat : "${resultat}"\n`);
+} catch (error) {
+    console.log(`✗ Erreur capturée : ${error}\n`);
+}
+
+console.log("\n" + "=".repeat(50));
+
+// ===== EXPLICATIONS PÉDAGOGIQUES =====
+/*
+🎓 Concepts clés du TP6 :
+
+1. MANIPULATION DE CHAÎNES
+   - charAt(0) : récupère le premier caractère
+   - toUpperCase() : convertit en majuscule
+   - slice(1) : récupère tout sauf le premier caractère
+   - Concaténation : premiereLettre + reste
+
+2. MÉTHODES DE STRING
+   - charAt(index) : caractère à la position index
+   - slice(début, fin) : extrait une portion de chaîne
+   - toUpperCase() : convertit tout en majuscules
+   - toLowerCase() : convertit tout en minuscules
+
+3. CAS PARTICULIER : CHAÎNE VIDE
+   - length === 0
+   - Pas de première lettre à mettre en majuscule
+   - Retourner la chaîne telle quelle
+
+4. VALIDATION STRICTE
+   - Vérifier l'existence (undefined/null)
+   - Vérifier le type (string)
+   - throw si invalide
+   - Les méthodes de string ne fonctionnent que sur des strings
+
+5. POURQUOI LA VALIDATION EST CRITIQUE
+   - Sans validation, chaine.charAt(0) crash si chaine n'est pas string
+   - TypeError: chaine.charAt is not a function
+   - Meilleur message d'erreur avec validation
+
+⚠️ DIFFÉRENCE TP5 vs TP6 :
+- TP5 : Pas de validation, crash si type invalide
+- TP6 : Validation avec throw/catch, messages d'erreur clairs
+- TP6 : Gestion des cas limites (null, undefined)
+
+💡 EXEMPLE DE TRANSFORMATION :
+- "bonjour" → "Bonjour"
+- "hello world" → "Hello world" (un seul mot mis en majuscule)
+- "a" → "A"
+- "" → ""
+
+💡 ALTERNATIVE MODERNE :
+- chaine[0] au lieu de chaine.charAt(0)
+- Mais charAt() est plus explicite pour l'apprentissage
+*/

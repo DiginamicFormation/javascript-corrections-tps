@@ -1,28 +1,44 @@
-// ===== EXERCICE FonctionPhraseMaj - VERSION ROBUSTE (TP6) =====
+// ===== EXERCICE FonctionPhraseMaj (TP6 - Version robuste) =====
 // Description : Mettre la première lettre de chaque mot en majuscule avec validation
-// Concepts : manipulation de chaînes, réutilisation de fonctions, validation
-// Nouveauté TP6 : Validation que le paramètre est bien une chaîne de caractères
+// Concepts : manipulation de chaînes, réutilisation de fonctions, throw, try/catch
+// Objectif TP6 : Gestion d'erreurs robuste avec validation à plusieurs niveaux
 
-console.log("=== EXERCICE FonctionPhraseMaj - Version Robuste ===\n");
+console.log("=== EXERCICE FonctionPhraseMaj (TP6) ===\n");
 
 // --- Fonction auxiliaire (avec validation) ---
-// Cette fonction met la première lettre d'une chaîne en majuscule
+/**
+ * Met la première lettre d'une chaîne en majuscule
+ * @param {string} chaine - La chaîne à transformer
+ */
 function mettreEnMajuscule(chaine) {
-    if (typeof chaine !== 'string') {
-        return `Erreur : le paramètre doit être une chaîne de caractères`;
+    // Validation : c'est bien une chaîne ?
+    if (typeof chaine !== "string") {
+        throw `Le paramètre doit être une chaîne de caractères (type reçu : ${typeof chaine})`;
     }
+
+    // Cas particulier : chaîne vide
     if (chaine.length === 0) {
         return chaine;
     }
+
+    // Transformation
     return chaine.charAt(0).toUpperCase() + chaine.slice(1);
 }
 
-// --- Définition de la fonction principale ---
-// Cette fonction met la première lettre de chaque mot en majuscule
+// --- Fonction principale (avec validation) ---
+/**
+ * Met la première lettre de chaque mot en majuscule
+ * @param {string} phrase - La phrase à transformer
+ */
 function mettrePhraseEnMajuscule(phrase) {
-    // Vérification : Le paramètre est-il une chaîne de caractères ?
-    if (typeof phrase !== 'string') {
-        return `Erreur : le paramètre doit être une chaîne de caractères (type reçu: ${typeof phrase})`;
+    // Validation 1 : Vérifier que le paramètre existe
+    if (phrase === undefined || phrase === null) {
+        throw "Le paramètre est obligatoire";
+    }
+
+    // Validation 2 : Vérifier que c'est bien une chaîne de caractères
+    if (typeof phrase !== "string") {
+        throw `Le paramètre doit être une chaîne de caractères (type reçu : ${typeof phrase})`;
     }
 
     // Étape 1 : Découper la phrase en mots (split sur les espaces)
@@ -33,13 +49,9 @@ function mettrePhraseEnMajuscule(phrase) {
 
     // Étape 3 : Parcourir chaque mot et mettre sa première lettre en majuscule
     for (let i = 0; i < mots.length; i++) {
+        // Appeler la fonction auxiliaire pour transformer chaque mot
+        // Si mettreEnMajuscule lance une erreur, elle sera propagée
         const motAvecMajuscule = mettreEnMajuscule(mots[i]);
-
-        // Vérifier que mettreEnMajuscule n'a pas retourné d'erreur
-        if (motAvecMajuscule.startsWith("Erreur")) {
-            return motAvecMajuscule; // Propager l'erreur
-        }
-
         motsTransformes.push(motAvecMajuscule);
     }
 
@@ -49,142 +61,171 @@ function mettrePhraseEnMajuscule(phrase) {
     return phraseTransformee;
 }
 
-// --- Test 1 : Avec une chaîne valide ---
-console.log("Test 1 - Avec une chaîne valide :");
-const phrase1 = "bonjour tout le monde";
-console.log(`Entrée : "${phrase1}"`);
-const resultat1 = mettrePhraseEnMajuscule(phrase1);
-console.log(`Résultat : "${resultat1}"`);
+// --- Tests avec gestion d'erreurs ---
+console.log("Test 1 : Cas nominal (phrase en minuscules)\n");
+try {
+    const phrase = "bonjour tout le monde";
+    console.log(`Entrée : "${phrase}"`);
+    const resultat = mettrePhraseEnMajuscule(phrase);
+    console.log(`✓ Résultat : "${resultat}"\n`);
+} catch (error) {
+    console.log(`✗ Erreur capturée : ${error}\n`);
+}
 
-// --- Test 2 : Avec une autre phrase ---
-console.log("\nTest 2 - Avec une autre phrase :");
-const phrase2 = "javascript est un langage de programmation";
-console.log(`Entrée : "${phrase2}"`);
-const resultat2 = mettrePhraseEnMajuscule(phrase2);
-console.log(`Résultat : "${resultat2}"`);
+console.log("Test 2 : Autre phrase\n");
+try {
+    const phrase = "javascript est un langage de programmation";
+    console.log(`Entrée : "${phrase}"`);
+    const resultat = mettrePhraseEnMajuscule(phrase);
+    console.log(`✓ Résultat : "${resultat}"\n`);
+} catch (error) {
+    console.log(`✗ Erreur capturée : ${error}\n`);
+}
 
-// --- Test 3 : Avec un nombre ---
-console.log("\nTest 3 - Avec un nombre (invalide) :");
-const phrase3 = 12345;
-console.log(`Entrée : ${phrase3}`);
-const resultat3 = mettrePhraseEnMajuscule(phrase3);
-console.log(`Résultat : ${resultat3}`);
+console.log("Test 3 : Phrase courte\n");
+try {
+    const phrase = "hello world";
+    console.log(`Entrée : "${phrase}"`);
+    const resultat = mettrePhraseEnMajuscule(phrase);
+    console.log(`✓ Résultat : "${resultat}"\n`);
+} catch (error) {
+    console.log(`✗ Erreur capturée : ${error}\n`);
+}
 
-// --- Test 4 : Avec un booléen ---
-console.log("\nTest 4 - Avec un booléen (invalide) :");
-const phrase4 = false;
-console.log(`Entrée : ${phrase4}`);
-const resultat4 = mettrePhraseEnMajuscule(phrase4);
-console.log(`Résultat : ${resultat4}`);
+console.log("Test 4 : Un seul mot\n");
+try {
+    const phrase = "bonjour";
+    console.log(`Entrée : "${phrase}"`);
+    const resultat = mettrePhraseEnMajuscule(phrase);
+    console.log(`✓ Résultat : "${resultat}"\n`);
+} catch (error) {
+    console.log(`✗ Erreur capturée : ${error}\n`);
+}
 
-// --- Test 5 : Avec un tableau ---
-console.log("\nTest 5 - Avec un tableau (invalide) :");
-const phrase5 = ["hello", "world"];
-console.log(`Entrée :`, phrase5);
-const resultat5 = mettrePhraseEnMajuscule(phrase5);
-console.log(`Résultat : ${resultat5}`);
+console.log("Test 5 : Phrase déjà en majuscules\n");
+try {
+    const phrase = "HELLO WORLD";
+    console.log(`Entrée : "${phrase}"`);
+    const resultat = mettrePhraseEnMajuscule(phrase);
+    console.log(`✓ Résultat : "${resultat}"`);
+    console.log("Note : Les premières lettres restent en majuscule\n");
+} catch (error) {
+    console.log(`✗ Erreur capturée : ${error}\n`);
+}
 
-// --- Test 6 : Avec undefined ---
-console.log("\nTest 6 - Avec undefined (invalide) :");
-const phrase6 = undefined;
-console.log(`Entrée : ${phrase6}`);
-const resultat6 = mettrePhraseEnMajuscule(phrase6);
-console.log(`Résultat : ${resultat6}`);
+console.log("Test 6 : Première lettre de chaque mot déjà en majuscule\n");
+try {
+    const phrase = "Hello World";
+    console.log(`Entrée : "${phrase}"`);
+    const resultat = mettrePhraseEnMajuscule(phrase);
+    console.log(`✓ Résultat : "${resultat}"\n`);
+} catch (error) {
+    console.log(`✗ Erreur capturée : ${error}\n`);
+}
 
-// --- Test 7 : Cas limites avec des chaînes valides ---
-console.log("\nTest 7 - Cas limites avec des chaînes valides :");
-console.log(`Chaîne vide "" → "${mettrePhraseEnMajuscule("")}"`);
-console.log(`Un seul mot "bonjour" → "${mettrePhraseEnMajuscule("bonjour")}"`);
-console.log(`Déjà en majuscules "Hello World" → "${mettrePhraseEnMajuscule("Hello World")}"`);
+console.log("Test 7 : Chaîne vide\n");
+try {
+    const phrase = "";
+    console.log(`Entrée : "${phrase}"`);
+    const resultat = mettrePhraseEnMajuscule(phrase);
+    console.log(`✓ Résultat : "${resultat}"`);
+    console.log("Note : Chaîne vide retournée telle quelle\n");
+} catch (error) {
+    console.log(`✗ Erreur capturée : ${error}\n`);
+}
 
-console.log("\n" + "=".repeat(40));
+console.log("Test 8 : Erreur - Type number\n");
+try {
+    const phrase = 12345;
+    console.log(`Entrée : ${phrase}`);
+    const resultat = mettrePhraseEnMajuscule(phrase);
+    console.log(`✓ Résultat : "${resultat}"\n`);
+} catch (error) {
+    console.log(`✗ Erreur capturée : ${error}\n`);
+}
 
-// Note pédagogique : Validation dans des fonctions composées
-//
-// NOUVEAUTÉ TP6 : Validation à plusieurs niveaux
-//
-// Différence TP5 vs TP6 :
-//
-// TP5 : Aucune validation
-// function mettrePhraseEnMajuscule(phrase) {
-//     const mots = phrase.split(" ");
-//     const motsTransformes = [];
-//     for (let i = 0; i < mots.length; i++) {
-//         motsTransformes.push(mettreEnMajuscule(mots[i]));
-//     }
-//     return motsTransformes.join(" ");
-// }
-// mettrePhraseEnMajuscule(123) → CRASH ! (TypeError: phrase.split is not a function)
-//
-// TP6 : Validation en amont
-// function mettrePhraseEnMajuscule(phrase) {
-//     if (typeof phrase !== 'string') {
-//         return "Erreur : le paramètre doit être une chaîne de caractères";
-//     }
-//     // ... reste du code
-// }
-// mettrePhraseEnMajuscule(123) → Message d'erreur clair
-//
-// Principes de validation dans les fonctions composées :
-//
-// 1. Valider au plus tôt :
-//    - Vérifier les types avant tout traitement
-//    - Évite des calculs inutiles si les données sont invalides
-//
-// 2. Valider à chaque niveau :
-//    - mettrePhraseEnMajuscule valide son paramètre
-//    - mettreEnMajuscule valide aussi son paramètre
-//    - Double protection (defense in depth)
-//
-// 3. Propager les erreurs :
-//    - Si une fonction auxiliaire retourne une erreur
-//    - La fonction principale doit la détecter et la propager
-//
-// Exemple de propagation d'erreur :
-// const motAvecMajuscule = mettreEnMajuscule(mots[i]);
-// if (motAvecMajuscule.startsWith("Erreur")) {
-//     return motAvecMajuscule; // Propager l'erreur
-// }
-//
-// Comportement sans validation :
-// mettrePhraseEnMajuscule(123) → TypeError
-// mettrePhraseEnMajuscule(null) → TypeError
-// mettrePhraseEnMajuscule([]) → Comportement inattendu
-//
-// Avec validation :
-// Tous ces cas retournent un message d'erreur explicite
-//
-// Variante avec throw (plus stricte) :
-// function mettrePhraseEnMajuscule(phrase) {
-//     if (typeof phrase !== 'string') {
-//         throw new TypeError("Le paramètre doit être une chaîne de caractères");
-//     }
-//     return phrase.split(" ")
-//                  .map(mot => mettreEnMajuscule(mot))
-//                  .join(" ");
-// }
-//
-// Variante avec validation simplifiée (si les fonctions auxiliaires sont sûres) :
-// function mettrePhraseEnMajuscule(phrase) {
-//     if (typeof phrase !== 'string') {
-//         return "Erreur : le paramètre doit être une chaîne de caractères";
-//     }
-//     const mots = phrase.split(" ");
-//     const motsTransformes = [];
-//     for (let i = 0; i < mots.length; i++) {
-//         // On peut appeler directement car on sait que mots[i] est une string
-//         motsTransformes.push(mots[i].charAt(0).toUpperCase() + mots[i].slice(1));
-//     }
-//     return motsTransformes.join(" ");
-// }
-//
-// Avantages de la validation multiple :
-// - Code plus robuste
-// - Erreurs détectées au plus tôt
-// - Meilleure maintenabilité
-// - Réutilisabilité des fonctions (chaque fonction est autonome)
-//
-// Inconvénients :
-// - Légèrement plus verbeux
-// - Petite perte de performance (vérifications multiples)
-// - Dans la pratique, le gain en robustesse vaut largement le coût !
+console.log("Test 9 : Erreur - Type boolean\n");
+try {
+    const phrase = false;
+    console.log(`Entrée : ${phrase}`);
+    const resultat = mettrePhraseEnMajuscule(phrase);
+    console.log(`✓ Résultat : "${resultat}"\n`);
+} catch (error) {
+    console.log(`✗ Erreur capturée : ${error}\n`);
+}
+
+console.log("Test 10 : Erreur - Tableau\n");
+try {
+    const phrase = ["hello", "world"];
+    console.log(`Entrée :`, phrase);
+    const resultat = mettrePhraseEnMajuscule(phrase);
+    console.log(`✓ Résultat : "${resultat}"\n`);
+} catch (error) {
+    console.log(`✗ Erreur capturée : ${error}\n`);
+}
+
+console.log("Test 11 : Erreur - null\n");
+try {
+    const phrase = null;
+    console.log(`Entrée : ${phrase}`);
+    const resultat = mettrePhraseEnMajuscule(phrase);
+    console.log(`✓ Résultat : "${resultat}"\n`);
+} catch (error) {
+    console.log(`✗ Erreur capturée : ${error}\n`);
+}
+
+console.log("Test 12 : Erreur - Paramètre manquant\n");
+try {
+    const resultat = mettrePhraseEnMajuscule();
+    console.log(`✓ Résultat : "${resultat}"\n`);
+} catch (error) {
+    console.log(`✗ Erreur capturée : ${error}\n`);
+}
+
+console.log("\n" + "=".repeat(50));
+
+// ===== EXPLICATIONS PÉDAGOGIQUES =====
+/*
+🎓 Concepts clés du TP6 :
+
+1. RÉUTILISATION DE FONCTIONS
+   - mettrePhraseEnMajuscule() utilise mettreEnMajuscule()
+   - Chaque fonction a une responsabilité claire
+   - Code modulaire et réutilisable
+
+2. MÉTHODES DE STRING
+   - split(" ") : découpe la phrase en tableau de mots
+   - join(" ") : reconstruit la phrase à partir du tableau
+   - Exemple : "hello world".split(" ") → ["hello", "world"]
+   - Exemple : ["Hello", "World"].join(" ") → "Hello World"
+
+3. VALIDATION À PLUSIEURS NIVEAUX
+   - mettrePhraseEnMajuscule valide son paramètre (string)
+   - mettreEnMajuscule valide aussi son paramètre
+   - Protection en profondeur (defense in depth)
+
+4. PROPAGATION D'ERREURS
+   - Si mettreEnMajuscule lance throw, l'erreur remonte
+   - mettrePhraseEnMajuscule n'a pas besoin de try/catch interne
+   - L'appelant principal gère l'erreur avec try/catch
+
+5. ALGORITHME
+   - Découper la phrase en mots (split)
+   - Transformer chaque mot (boucle + fonction auxiliaire)
+   - Reconstruire la phrase (join)
+
+⚠️ DIFFÉRENCE TP5 vs TP6 :
+- TP5 : Pas de validation, crash si type invalide
+- TP6 : Validation stricte avec throw/catch à plusieurs niveaux
+- TP6 : Messages d'erreur clairs à chaque niveau
+
+💡 EXEMPLE DE TRANSFORMATION :
+- "bonjour tout le monde" → "Bonjour Tout Le Monde"
+- "hello world" → "Hello World"
+- "javascript" → "Javascript"
+- "" → ""
+
+💡 ALTERNATIVE MODERNE :
+- phrase.split(" ").map(mot => mettreEnMajuscule(mot)).join(" ")
+- Plus concis mais on privilégie les boucles pour l'apprentissage
+*/
