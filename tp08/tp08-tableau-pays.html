@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP08 - Tableau Pays</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: #666;
+            margin-top: 0;
+            font-weight: normal;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        thead {
+            background-color: #f0f0f0;
+        }
+
+        th {
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+            border-bottom: 2px solid #ddd;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:hover {
+            background-color: #fafafa;
+        }
+
+        /* Alignement des colonnes numériques */
+        td:nth-child(3), td:nth-child(4) {
+            text-align: right;
+        }
+
+        th:nth-child(3), th:nth-child(4) {
+            text-align: right;
+        }
+
+        /* Style pour les drapeaux */
+        .drapeau {
+            vertical-align: middle;
+        }
+    </style>
+    <script>
+        // ⭐ Données JSON déclarées dans le script
+        // On les déclare ici pour qu'elles soient accessibles partout
+        let data = {
+            "polluant": "CO2",
+            "unite": "milliards de tonnes",
+            "annee": 2017,
+            "pays": [
+                {"nom": "Chine", "valeur": 9.26, "pourcentage": 28.2, "code": "cn"},
+                {"nom": "Etats-Unis", "valeur": 4.76, "pourcentage": 14.5, "code": "us"},
+                {"nom": "Inde", "valeur": 2.16, "pourcentage": 6.6, "code": "in"},
+                {"nom": "Russie", "valeur": 1.54, "pourcentage": 4.7, "code": "ru"},
+                {"nom": "Japon", "valeur": 1.13, "pourcentage": 3.4, "code": "jp"},
+                {"nom": "Allemagne", "valeur": 0.72, "pourcentage": 2.2, "code": "de"},
+                {"nom": "Corée du Sud", "valeur": 0.6, "pourcentage": 1.8, "code": "kr"},
+                {"nom": "Iran", "valeur": 0.57, "pourcentage": 1.7, "code": "ir"},
+                {"nom": "Canada", "valeur": 0.55, "pourcentage": 1.7, "code": "ca"}
+            ]
+        };
+    </script>
+    <script src="tp08-tableau-pays.js"></script>
+</head>
+<body onload="initialiserTableau()">
+    <div class="container">
+        <h1 id="titre"></h1>
+        <h2 id="annee"></h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Nom</th>
+                    <th>Valeur</th>
+                    <th>%</th>
+                </tr>
+            </thead>
+            <tbody id="corps">
+                <!-- Le contenu sera généré dynamiquement en JavaScript -->
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

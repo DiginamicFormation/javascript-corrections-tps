@@ -8,6 +8,8 @@ Ce dépôt contient les **corrections officielles** des exercices JavaScript org
 - **TP3** : Algorithmie (tableaux, boucles, conditions)
 - **TP5** : Fonctions (paramètres, return, closures, objets)
 - **TP6** : Fonctions et robustesse (validation, exceptions, try/catch)
+- **TP8** : Manipulation du DOM (querySelector, événements, formulaires, JSON local)
+- **TP9** : AJAX et HTML (requêtes HTTP, manipulation DOM, données JSON distantes)
 
 Ces corrections sont destinées aux apprenants de Diginamic Formation comme support pédagogique et référence pour valider leurs solutions.
 
@@ -20,8 +22,10 @@ Ces corrections sont destinées aux apprenants de Diginamic Formation comme supp
 4. Analysez les différences et les optimisations possibles
 
 ### Comment utiliser ce dépôt :
-- Les exercices sont organisés par dossier (tp03, tp05, tp06)
-- Chaque exercice est dans un fichier séparé nommé `nomExercice.js`
+- Les exercices sont organisés par dossier (tp03, tp05, tp06, tp08, tp09)
+- Chaque exercice est dans un fichier séparé
+  - **TP3, TP5, TP6** : fichiers `.js` uniquement
+  - **TP8, TP9** : paires de fichiers `.html` + `.js`
 - Les corrections sont commentées pour expliquer la logique
 - Plusieurs approches peuvent être présentées (classique, moderne, optimisée)
 - N'hésitez pas à tester et modifier les corrections pour mieux comprendre
@@ -46,16 +50,35 @@ Ces corrections sont destinées aux apprenants de Diginamic Formation comme supp
 - Écrire des fonctions robustes
 - Créer des messages d'erreur explicites
 
+### TP8 - Manipulation du DOM
+- Sélectionner des éléments (getElementById, querySelector)
+- Gérer les événements (onclick, onload)
+- Valider des formulaires
+- Manipuler le DOM (textContent, innerHTML, className)
+- Travailler avec des données JSON locales
+
+### TP9 - AJAX et HTML
+- Effectuer des requêtes AJAX avec XMLHttpRequest
+- Récupérer des données depuis des APIs REST
+- Parser du JSON avec JSON.parse()
+- Afficher des données dynamiques dans une page
+- Gérer les états de requête (readyState, status)
+
 ## Structure du projet
 
 ```
 tp_javascript/
-├── tp03/          # TP3 - Algorithmie (16 exercices)
-├── tp05/          # TP5 - Fonctions (9 exercices)
-├── tp06/          # TP6 - Fonctions robustes (6 exercices)
+├── tp03/          # TP3 - Algorithmie (16 exercices .js)
+├── tp05/          # TP5 - Fonctions (9 exercices .js)
+├── tp06/          # TP6 - Fonctions robustes (6 exercices .js)
+├── tp08/          # TP8 - Manipulation DOM (5 exercices .html + .js)
+├── tp09/          # TP9 - AJAX et HTML (4 exercices .html + .js)
 ├── tp-03-algorithmie-javascript.pdf
 ├── tp-05-fonctions.pdf
-└── tp-06-fonctions-robustesse.pdf
+├── tp-06-fonctions-robustesse.pdf
+├── tp-08-manipulation-dom.pdf
+├── tp-09-ajax-et-html.pdf
+└── CLAUDE.md      # Instructions pour l'assistant IA
 ```
 
 ## Liste des exercices
@@ -107,6 +130,51 @@ tp_javascript/
 5. **FonctionMaj** - Version avec validation de type
 6. **FonctionPhraseMaj** - Version avec validation à plusieurs niveaux
 
+### TP8 - Manipulation du DOM (5 exercices)
+
+1. **Addition** ([tp08-addition.html](tp08/tp08-addition.html) + [.js](tp08/tp08-addition.js))
+   - Additionner deux nombres avec validation
+   - Concepts : getElementById, isNaN(), onclick, messages d'erreur/succès
+
+2. **Operation** ([tp08-operation.html](tp08/tp08-operation.html) + [.js](tp08/tp08-operation.js))
+   - Calculatrice avec 4 opérations (+, -, *, /)
+   - Concepts : select, switch/case, validation, division par zéro
+
+3. **ControleFormulaire** ([tp08-formulaire.html](tp08/tp08-formulaire.html) + [.js](tp08/tp08-formulaire.js))
+   - Validation de formulaire d'inscription (nom, prénom, date de naissance)
+   - Concepts : Validation de formulaire, trim(), gestion d'erreurs multiples
+
+4. **AffichageJson** ([tp08-affichage-json.html](tp08/tp08-affichage-json.html) + [.js](tp08/tp08-affichage-json.js))
+   - Afficher des données JSON dans la page
+   - Concepts : JSON local, body onload, modification h1/h2, boucle sur tableau
+
+5. **TableauPays [DIFFICILE]** ([tp08-tableau-pays.html](tp08/tp08-tableau-pays.html) + [.js](tp08/tp08-tableau-pays.js))
+   - Afficher JSON dans un tableau HTML avec drapeaux
+   - Concepts : Génération de tbody, images dynamiques, tableaux HTML
+
+### TP9 - AJAX et HTML (4 exercices)
+
+1. **ConstruireTableauPays** ([ConstruireTableauPays.html](tp09/ConstruireTableauPays.html) + [.js](tp09/ConstruireTableauPays.js))
+   - Récupérer des données de pollution via AJAX et les afficher dans un tableau HTML
+   - API : `https://digicode.cleverapps.io/json/pays/pollution`
+   - Concepts : XMLHttpRequest, manipulation DOM, tableaux HTML dynamiques
+
+2. **AffichageDonnees** ([tp09-affichageDonnees.html](tp09/tp09-affichageDonnees.html) + [.js](tp09/tp09-affichageDonnees.js))
+   - Récupérer les données des pays et les afficher en JSON brut
+   - API : RestCountries v2
+   - Concepts : XMLHttpRequest, readyState, status
+
+3. **AffichagePaysInfos** ([tp09-affichagePaysInfos.html](tp09/tp09-affichagePaysInfos.html) + [.js](tp09/tp09-affichagePaysInfos.js))
+   - Afficher les informations sélectionnées de chaque pays (nom, capitale, population, région)
+   - API : RestCountries v2
+   - Concepts : JSON.parse(), accès aux propriétés d'objets, affichage formaté
+
+4. **AffichagePaysEtCapitaleListe [DIFFICILE]** ([tp09-affichagePaysEtCapitaleListe.html](tp09/tp09-affichagePaysEtCapitaleListe.html) + [.js](tp09/tp09-affichagePaysEtCapitaleListe.js))
+   - Afficher les pays dans un tableau HTML avec tri sur la population
+   - API : RestCountries v2
+   - Concepts : Tableaux HTML, tri de données (sort()), icônes Font Awesome, gestion d'états
+   - Fonctionnalité : Tri cyclique (non trié → croissant → décroissant → non trié)
+
 ## Consignes qualité
 
 - Soigner la présentation des résultats
@@ -118,11 +186,13 @@ tp_javascript/
 ## Technologies
 
 - JavaScript (ES6+)
-- Node.js (pour l'exécution)
+- Node.js (pour l'exécution des TP3, TP5, TP6)
+- HTML5 / CSS3 (pour les TP8 et TP9)
+- APIs REST publiques (pour le TP9)
 
 ## Exécution des corrections
 
-Pour exécuter une correction :
+### TP3, TP5, TP6 : Exécution avec Node.js
 
 ```bash
 # TP3 - Algorithmie
@@ -138,20 +208,58 @@ node tp06/FonctionMoyenne.js
 node tp06/BonjourUntel.js
 ```
 
-**Note** : Le TP6 reprend les exercices du TP5 en ajoutant la gestion d'erreurs robuste. Les apprenants peuvent comparer les deux versions pour comprendre l'importance de la validation.
+### TP8, TP9 : Ouverture dans un navigateur
+
+```bash
+# Option 1 : Double-clic sur les fichiers HTML
+tp08/tp08-addition.html
+tp08/tp08-tableau-pays.html
+tp09/ConstruireTableauPays.html
+
+# Option 2 : Serveur local (recommandé pour éviter les problèmes CORS avec TP9)
+# Avec Live Server (VSCode)
+# Avec http-server (npm install -g http-server)
+http-server
+```
+
+**Notes importantes** :
+- Le **TP6** reprend les exercices du TP5 en ajoutant la gestion d'erreurs robuste. Les apprenants peuvent comparer les deux versions pour comprendre l'importance de la validation.
+- Les **TP8 et TP9** nécessitent un navigateur web pour fonctionner.
+- Pour le **TP9**, un serveur local est recommandé pour éviter les problèmes de CORS lors des requêtes AJAX.
+
+## APIs utilisées (TP9)
+
+- **API Pollution** : `https://digicode.cleverapps.io/json/pays/pollution`
+  - Données de pollution CO2 par pays
+
+- **API REST Countries** : `https://restcountries.com/v2/all?fields=name,languages,region,flag,population,currencies,capital`
+  - Informations sur tous les pays du monde
 
 ## Notes pour les formateurs
 
 Ce dépôt est conçu pour être facilement maintenu et étendu. Chaque correction inclut :
 - Le code fonctionnel testé
-- Des commentaires expliquant la logique
+- Des commentaires pédagogiques expliquant la logique
 - Des exemples d'affichage clairs
+- Des notes sur les méthodes modernes (comparaison classique vs ES6+)
 - Éventuellement des variantes de solution
+
+Le fichier [CLAUDE.md](CLAUDE.md) contient des instructions détaillées pour l'assistant IA qui aide à maintenir ce dépôt.
+
+## Progression pédagogique recommandée
+
+1. **TP3** : Bases de l'algorithmie avec JavaScript
+2. **TP5** : Introduction aux fonctions
+3. **TP6** : Robustesse et gestion d'erreurs
+4. **TP8** : Manipulation du DOM et événements
+5. **TP9** : AJAX et communication avec des APIs
 
 ## Auteur et maintenance
 
 **Lucas Preaux** (lpreaux)
 Formateur - Diginamic Formation
+
+Corrections générées avec l'assistance de Claude Code (Anthropic) pour garantir la qualité pédagogique et le respect des bonnes pratiques.
 
 ## Licence
 
